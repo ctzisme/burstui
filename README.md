@@ -4,7 +4,12 @@ A terminal UI for Gobuster built with Bubble Tea and Lip Gloss.
 
 BurstUI provides a small TUI around common Gobuster workflows so you can switch modes, set options, run scans, and review live output without typing the full command each time.
 
-Current release version: `v0.1.0`
+[![License](https://img.shields.io/github/license/ctzisme/burstui)](https://github.com/ctzisme/burstui/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/ctzisme/burstui)](https://github.com/ctzisme/burstui/releases)
+[![Go Version](https://img.shields.io/badge/Go-1.26.1-00ADD8?logo=go)](https://go.dev/)
+[![Gobuster](https://img.shields.io/badge/Gobuster-3.8.2-orange)](https://github.com/OJ/gobuster)
+[![GHCR](https://img.shields.io/badge/GHCR-ghcr.io%2Fctzisme%2Fburstui-blue)](https://github.com/ctzisme/burstui/pkgs/container/burstui)
+[![Stars](https://img.shields.io/github/stars/ctzisme/burstui?style=social)](https://github.com/ctzisme/burstui)
 
 ## Features
 
