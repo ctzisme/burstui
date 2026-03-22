@@ -19,6 +19,10 @@ Current app version: `v0.1.0`
 
 ## Requirements
 
+- Docker
+
+OR
+
 - Go `1.26.1` or newer
 - Gobuster `3.8.2` or newer
 - A working `gobuster` binary in your `PATH`
@@ -44,6 +48,7 @@ docker run --rm -it \
   -v "$(pwd):/output" \
   ghcr.io/ctzisme/burstui:latest
 ```
+Make sure to save logs only to the mounted directory (for example, `/output/123.log` when using the command above).
 
 ## Manual Installation
 
@@ -161,7 +166,7 @@ gobuster dir -u https://example.com -w wordlist.txt -s 200,301,302 -t 10 --statu
 
 Notes:
 
-- `Filter Status Codes` placeholder: `200`
+- You can set multiple `Filter Status Codes`, separated by commas (e.g. `200,304,403`).
 - If left empty, BurstUI uses `200`
 
 ### `vhost`
@@ -181,7 +186,7 @@ gobuster vhost -u https://example.com -w wordlist.txt -t 10 -xs 400 --append-dom
 
 Notes:
 
-- `Exclude Status Codes` placeholder: `400`
+- You can set multiple `Exclude Status Codes`, separated by commas (e.g. `400,500`).
 - If left empty, BurstUI uses `400`
 
 ### `dns`
@@ -189,7 +194,7 @@ Notes:
 Fields:
 
 - Domain
-- Custom DNS Server
+- Custom DNS Server (Optional)
 - Threads
 - Wordlist Path
 
@@ -199,7 +204,7 @@ Generated command shape:
 gobuster dns -do example.com -w wordlist.txt -t 10
 ```
 
-With a custom resolver:
+With a custom resolver (optional):
 
 ```bash
 gobuster dns -do example.com -w wordlist.txt -t 10 --resolver 8.8.8.8:53
@@ -207,8 +212,7 @@ gobuster dns -do example.com -w wordlist.txt -t 10 --resolver 8.8.8.8:53
 
 Notes:
 
-- `dns` mode does not use `-s` or `-xs`
-- `Domain` placeholder: `example.com`
+- You cannot filter status codes in `dns` mode
 - `Custom DNS Server` is optional
 
 ## Controls
@@ -240,16 +244,3 @@ Default output path:
 - `scan.go`: Gobuster command construction and output streaming
 - `view.go`: TUI rendering
 - `styles.go`: Lip Gloss styles and log coloring helpers
-
-## Development
-
-Format and build:
-
-```bash
-gofmt -w *.go
-go build ./...
-```
-
-## Notes
-
-BurstUI is currently an early release. The interface and behavior may still change before `v1.0.0`.
