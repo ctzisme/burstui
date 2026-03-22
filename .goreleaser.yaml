@@ -1,0 +1,54 @@
+version: 2
+
+project_name: burstui
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: burstui
+    main: .
+    binary: burstui
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{ .Version }}
+      - -X main.commit={{ .Commit }}
+      - -X main.commitDate={{ .Date }}
+
+archives:
+  - id: default
+    builds:
+      - burstui
+    formats:
+      - tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  use: git
+
+release:
+  github:
+    owner: ctzisme
+    name: burstui
