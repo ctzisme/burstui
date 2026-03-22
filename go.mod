@@ -1,4 +1,4 @@
-module burstui
+module github.com/ctzisme/burstui
 
 go 1.26.1
 

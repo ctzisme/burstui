@@ -40,9 +40,9 @@ BurstUI provides a small TUI around common Gobuster workflows so you can switch 
 docker pull ghcr.io/ctzisme/burstui:latest
 ```
 
-### Run the TUI:
+### Run a container
 
-Run BurstUI with host wordlists mounted read-only and the current directory mounted to `/output` for saving scan logs.
+Run a BurstUI container with host wordlists mounted read-only and the current directory mounted to `/output` for saving scan logs.
 
 ```bash
 docker run --rm -it \
@@ -51,11 +51,18 @@ docker run --rm -it \
   -v "$(pwd):/output" \
   ghcr.io/ctzisme/burstui:latest
 ```
-Make sure to save logs only to the mounted directory (for example, `/output/123.log` when using the command above).
+*Make sure to save logs only to the mounted directory (for example, `/output/123.log` when using the command above).*
 
 ## 🔨 Manual Installation
 
 ### Install and build BurstUI
+
+#### Using Go Install
+```bash
+go install github.com/ctzisme/burstui@latest
+```
+
+*OR*
 
 #### From Source Code
 ```bash
@@ -65,6 +72,7 @@ go mod tidy
 go build .
 ```
 *OR*
+
 #### Using Binary Releases
 
 Download binary releases from the [releases page](https://github.com/ctzisme/burstui/releases).
@@ -85,7 +93,7 @@ Install the latest Gobuster release:
 go install github.com/OJ/gobuster/v3@latest
 ```
 
-### Add Gobuster to PATH
+### Add latest Gobuster to PATH
 
 Use it immediately in the current shell:
 
