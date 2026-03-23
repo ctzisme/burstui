@@ -13,6 +13,8 @@ BurstUI provides a small TUI around common Gobuster workflows so you can switch 
 
 ## Features
 
+![BurstUI Demo](assets/demo.png)
+
 - Supports Gobuster `dir`, `vhost`, and `dns` modes
 - Startup detection of Gobuster path and version
 - Live scan output with scrollable result pane
