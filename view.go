@@ -21,7 +21,7 @@ func (m model) View() string {
 		lipgloss.Center,
 		titleStyle.Render("BurstUI"),
 		" ",
-		versionStyle.Render("v0.1.1"),
+		versionStyle.Render(version),
 	)
 	header := lipgloss.JoinVertical(
 		lipgloss.Left,
