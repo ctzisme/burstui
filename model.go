@@ -57,20 +57,21 @@ type model struct {
 	logSaveError string
 	pickerErr    error
 
-	cmd             *exec.Cmd
-	scanCommand     string
-	quiting         bool
-	width           int
-	height          int
-	lastStatus      string
-	scanFinished    bool
-	gradientStep    int
-	progressCurrent int
-	progressTotal   int
-	resultFocused   bool
-	autoFollowLog   bool
-	viewport        viewport.Model
-	viewportReady   bool
+	cmd              *exec.Cmd
+	scanCommand      string
+	quiting          bool
+	width            int
+	height           int
+	lastStatus       string
+	scanFinished     bool
+	gradientStep     int
+	progressCurrent  int
+	progressTotal    int
+	horizontalScroll int
+	resultFocused    bool
+	autoFollowLog    bool
+	viewport         viewport.Model
+	viewportReady    bool
 }
 
 func initialModel() model {

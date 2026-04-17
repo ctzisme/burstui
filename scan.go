@@ -48,6 +48,7 @@ func (m model) startScan() (tea.Model, tea.Cmd) {
 	m.scanFinished = false
 	m.progressCurrent = 0
 	m.progressTotal = wordCount
+	m.horizontalScroll = 0
 	m.errorMsg = ""
 	m.logSaveError = ""
 	m.lastStatus = "Scan currently in progress."

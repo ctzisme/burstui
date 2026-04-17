@@ -155,11 +155,18 @@ func (m model) updateResultPane(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch msg.String() {
 	case "ctrl+c":
 		return m, tea.Quit
-	case "left", "esc":
-		m.resultFocused = false
-		return m, nil
 	case "tab", "shift+tab":
 		m.resultFocused = false
+		return m, nil
+	case "left":
+		if m.horizontalScroll > 0 {
+			m.horizontalScroll--
+			m.viewport.SetContent(m.rightPanelView())
+		}
+		return m, nil
+	case "right":
+		m.horizontalScroll++
+		m.viewport.SetContent(m.rightPanelView())
 		return m, nil
 	}
 
@@ -265,34 +272,6 @@ func (m model) updateForm(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				return m, nil
 			}
 
-			atFarRight := false
-			switch m.focusIndex {
-			case 1:
-				atFarRight = m.targetInput.Position() >= len(m.targetInput.Value())
-			case 2:
-				atFarRight = m.modeOptions[m.modeIndex] != modeDNS && m.statusCodesInput.Position() >= len(m.statusCodesInput.Value())
-			case 3:
-				atFarRight = m.threadsInput.Position() >= len(m.threadsInput.Value())
-			case 4:
-				if m.modeOptions[m.modeIndex] == modeDNS {
-					atFarRight = m.customDNSServerInput.Position() >= len(m.customDNSServerInput.Value())
-				} else {
-					atFarRight = m.wordlistInput.Position() >= len(m.wordlistInput.Value())
-				}
-			case 5:
-				if m.modeOptions[m.modeIndex] == modeDNS {
-					atFarRight = m.wordlistInput.Position() >= len(m.wordlistInput.Value())
-				}
-			case 6:
-				atFarRight = m.scanFinished && m.outputFileInput.Position() >= len(m.outputFileInput.Value())
-			case 7, 8:
-				atFarRight = true
-			}
-
-			if atFarRight {
-				m.resultFocused = true
-				return m, nil
-			}
 		}
 	case "enter":
 		switch m.focusIndex {
@@ -361,10 +340,7 @@ func (m model) updateScanningKeys(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.stopScan()
 		m.quiting = true
 		return m, tea.Quit
-	case "left":
-		m.resultFocused = false
-		return m, nil
-	case "right":
+	case "tab", "shift+tab":
 		m.resultFocused = true
 		return m, nil
 	}

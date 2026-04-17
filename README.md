@@ -150,6 +150,7 @@ When BurstUI starts, it will show:
 - `← / →` on `Mode`: switch mode
 - `→`: fill a field with its placeholder when empty
 - `Tab` / `Shift+Tab`: switch between form and result pane
+- `← / →` in the result pane: scroll horizontally through long output lines
 - `Enter` on `Browse Wordlist`: open the wordlist picker
 - `Enter` on `Start Scan`: run Gobuster
 - `Enter` on `Output Log File`: save logs after a scan completes
@@ -169,7 +170,7 @@ Fields:
 Generated command shape:
 
 ```bash
-gobuster dir -u https://example.com -w wordlist.txt -s 200,301,302 -t 10 --status-codes-blacklist ""
+gobuster dir -u https://example.com -w wordlist.txt -s 200,301,302 -t 10
 ```
 
 Notes:

@@ -72,9 +72,9 @@ func (m model) View() string {
 	}
 	hint := helpStyle.Render("Press Tab to focus result pane")
 	if m.resultFocused {
-		hint = helpStyle.Render("Result pane focused • ↑/↓ scroll • ←/esc/Tab back to Configuration")
+		hint = helpStyle.Render(fmt.Sprintf("Result pane focused • Tab back • \u2191/\u2193 vertical • \u2190/\u2192 horizontal (%d)", m.horizontalScroll))
 	} else if m.stage == stageScanning {
-		hint = helpStyle.Render("Scanning • Press → to focus live results • ctrl+c quits")
+		hint = helpStyle.Render("Scanning • Press Tab to focus live results • ctrl+c quits")
 	}
 	content := strings.Join([]string{viewportContent, "", footer, hint}, "\n")
 	rightPanel := rightStyle.Width(rightWidth).Render(content)
@@ -103,7 +103,7 @@ func (m model) rightPanelView() string {
 
 	var lines []string
 	for _, line := range m.logs {
-		lines = append(lines, renderLogLine(line))
+		lines = append(lines, renderLogLine(m.sliceHorizontal(line)))
 	}
 	if len(lines) == 0 {
 		lines = []string{helpStyle.Render("No output yet.")}
@@ -243,4 +243,16 @@ func focusedLabel(active bool, label string) string {
 		return activeLabelStyle.Render("▶ " + label)
 	}
 	return inactiveLabelStyle.Render("  " + label)
+}
+
+func (m model) sliceHorizontal(s string) string {
+	if m.horizontalScroll <= 0 {
+		return s
+	}
+
+	runes := []rune(s)
+	if m.horizontalScroll >= len(runes) {
+		return ""
+	}
+	return string(runes[m.horizontalScroll:])
 }
