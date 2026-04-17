@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -76,7 +77,7 @@ func (m model) startScan() (tea.Model, tea.Cmd) {
 		m.logs = append(m.logs, "Could not count wordlist entries: "+wordCountErr.Error())
 	}
 
-	args := []string{m.modeOptions[m.modeIndex], "-u", target, "-w", wordlistPath, "-s", statusCodes, "-t", threads, "--status-codes-blacklist", ""}
+	args := []string{m.modeOptions[m.modeIndex], "-u", target, "-w", wordlistPath, "-s", statusCodes, "-t", threads}
 	if m.modeOptions[m.modeIndex] == modeVhost {
 		args = []string{m.modeOptions[m.modeIndex], "-u", target, "-w", wordlistPath, "-t", threads, "-xs", statusCodes, "--append-domain"}
 	}
@@ -86,6 +87,8 @@ func (m model) startScan() (tea.Model, tea.Cmd) {
 			args = append(args, "--resolver", customDNSServer)
 		}
 	}
+	m.scanCommand = "gobuster " + joinCommandArgs(args)
+	m.logs = append(m.logs, "Command: "+m.scanCommand)
 
 	cmd := exec.Command("gobuster", args...)
 	stdout, err := cmd.StdoutPipe()
@@ -251,6 +254,28 @@ func (m model) waitForScan() tea.Cmd {
 		err := cmd.Wait()
 		return scanFinishedMsg{err: err}
 	}
+}
+
+func formatScanError(err error) string {
+	var exitErr *exec.ExitError
+	if errors.As(err, &exitErr) {
+		exitCode := exitErr.ExitCode()
+		if exitCode >= 0 {
+			return fmt.Sprintf("Gobuster exited with code %d", exitCode)
+		}
+	}
+	return err.Error()
+}
+
+func joinCommandArgs(args []string) string {
+	quoted := make([]string, len(args))
+	for i, arg := range args {
+		quoted[i] = strconv.Quote(arg)
+		if quoted[i][0] == '"' && !strings.ContainsAny(arg, " \t\n\"'\\") {
+			quoted[i] = arg
+		}
+	}
+	return strings.Join(quoted, " ")
 }
 
 func (m *model) stopScan() {

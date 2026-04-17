@@ -58,6 +58,7 @@ type model struct {
 	pickerErr    error
 
 	cmd             *exec.Cmd
+	scanCommand     string
 	quiting         bool
 	width           int
 	height          int

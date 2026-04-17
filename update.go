@@ -69,9 +69,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.scanFinished = true
 		m.stage = stageForm
 		if msg.err != nil {
-			m.errorMsg = msg.err.Error()
-			m.lastStatus = "Last scan finished with an error."
-			m.appendLog("Scan failed: " + msg.err.Error())
+			m.errorMsg = formatScanError(msg.err)
+			m.lastStatus = m.errorMsg + "."
+			if m.scanCommand != "" {
+				m.appendLog("Command failed: " + m.scanCommand)
+			}
+			m.appendLog("Scan failed: " + m.errorMsg)
 		} else {
 			m.errorMsg = ""
 			m.lastStatus = "Last scan completed successfully."
