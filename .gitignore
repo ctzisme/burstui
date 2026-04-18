@@ -33,3 +33,6 @@ go.work.sum
 
 # logs
 burstui-output*.log
+
+# local wordlists
+common.txt
