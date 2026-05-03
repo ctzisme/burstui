@@ -78,7 +78,7 @@ func (m model) startScan() (tea.Model, tea.Cmd) {
 		m.logs = append(m.logs, "Could not count wordlist entries: "+wordCountErr.Error())
 	}
 
-	args := []string{m.modeOptions[m.modeIndex], "-u", target, "-w", wordlistPath, "-s", statusCodes, "-t", threads}
+	args := []string{m.modeOptions[m.modeIndex], "-u", target, "-w", wordlistPath, "-s", statusCodes, "-t", threads, "--status-codes-blacklist="}
 	if m.modeOptions[m.modeIndex] == modeVhost {
 		args = []string{m.modeOptions[m.modeIndex], "-u", target, "-w", wordlistPath, "-t", threads, "-xs", statusCodes, "--append-domain"}
 	}
